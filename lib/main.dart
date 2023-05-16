@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertask/pages/dashboard.dart';
 import 'package:fluttertask/pages/home.dart';
 import 'package:fluttertask/pages/register.dart';
-import 'package:fluttertask/providers/game-provider.dart';
+import 'package:fluttertask/providers/product-provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {

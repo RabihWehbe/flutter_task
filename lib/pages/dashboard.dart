@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/game-provider.dart';
+import '../providers/product-provider.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -65,45 +65,88 @@ class _DashboardState extends State<Dashboard> {
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         colors: [
-                          Colors.purple,
-                          Colors.purpleAccent,
-                          Color(0xFFBF45ED)
+                          Colors.lightBlue,
+                          Colors.blue,
+                          Colors.lightBlueAccent
                         ]
                     )
                 ),
-                child: Card(
-                  key: ValueKey(provider.products?[index].id),
-                  color: Colors.purple,
-                  elevation: 4,
-                  margin: EdgeInsets.symmetric(vertical: 10),
-
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child: ClipOval(
-                        child: Image.network(provider.products![index].image,
-                          height: 70,
-                        ),
-                      ),
-                    ),
-
-
-                    title: Text(
-                      '${provider.products?[index].title}',
-                      style: TextStyle(
-                          color: Color(0xFF040B20),
-                      ),
-                    ),
-                    subtitle: Text('${provider.products?[index].description}',
-                      //style: TextStyle(color: Colors.white),
-                    ),
-
-
-                  ),
+                child: ProductCard(image: provider.products!.elementAt(index).image,
+                  price: provider.products!.elementAt(index).price,
+                  description: provider.products!.elementAt(index).description,
+                  title: provider.products!.elementAt(index).title,
+                  rating: provider.products!.elementAt(index).rate,
                 ),
               ),
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+
+
+class ProductCard extends StatelessWidget {
+  final String image;
+  final String title;
+  final String description;
+  final double rating;
+  final double price;
+
+  ProductCard({
+    required this.image,
+    required this.title,
+    required this.description,
+    required this.rating,
+    required this.price,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.symmetric(vertical: 20),
+      child: Column(
+        children: [
+          Image.network(
+            image,
+            height: 200,
+            width: double.infinity,
+            fit: BoxFit.fitHeight,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title: Text(
+                title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Rating: $rating',
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Price: $price',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

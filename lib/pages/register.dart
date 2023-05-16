@@ -16,7 +16,6 @@ class _RegisterState extends State<Register> {
   String email = '';
   String password ='';
   String confirmPassowrd = '';
-  //String error = '';
   bool _obscureText = true;
 
   var textInputDecoration = const InputDecoration(
@@ -37,6 +36,8 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return  Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -44,7 +45,7 @@ class _RegisterState extends State<Register> {
         actions: [
           ElevatedButton(
               onPressed: () {
-
+                Navigator.pushNamed(context, '/dashboard');
               },
               style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
@@ -70,7 +71,6 @@ class _RegisterState extends State<Register> {
                 children: [
                   TextFormField(
                     decoration: textInputDecoration.copyWith(hintText: 'Name'),
-
                     validator: (val) {
                       if(val == null || val.isEmpty){
                         return 'enter name';
@@ -86,10 +86,13 @@ class _RegisterState extends State<Register> {
                   SizedBox(height: 20,),
                   TextFormField(
                     decoration: textInputDecoration.copyWith(hintText: 'Email'),
-
                     validator: (val) {
                       if(val == null || val.isEmpty){
                         return 'enter email';
+                      }
+
+                      if(!val.contains(RegExp(r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$'))){
+                        return 'enter a valid email';
                       }
                       return null;
                     },
@@ -182,16 +185,13 @@ class _RegisterState extends State<Register> {
                       isValid = _formKey.currentState?.validate() ?? false;
                       if(isValid){
                         setState(() {
-
+                          name = '';
+                          email = '';
+                          password ='';
+                          confirmPassowrd = '';
+                          _obscureText = true;
+                          _formKey.currentState?.reset();
                         });
-
-
-                        // if(result == null){
-                        //   setState(() {
-                        //     error = 'could not sign in with those credentials';
-                        //     loading = false;
-                        //   });
-                        // }
                       }
                     },
                   ),
